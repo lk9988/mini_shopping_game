@@ -22,23 +22,51 @@ function loadItems(){
         <img src="${item.image}" alt="${item.type}" class="item_thumbnail">
         <span class="item_description"> ${item.gender}, ${item.size}</span>
       </li>
-     `
+     `; 
  }
+ 
+// function when button is clicked, 
+ function onButtonclick(event, items){
+    
+     console.log(event.target.dataset.key); 
+     console.log(event.target.dataset.value);
+
+     const dataset = event.target.dataset; 
+     const key = dataset.key
+     const value = dataset.value; 
+
+     if (key == null || value == null ){
+        // if no match, exit 
+         return; 
+     }
+     displayItems(items.filter(item => item[key] === value )); 
+     // if marches, filter items with same key 
+ }
+
+
+ function setEventListeners(items) { 
+     const logo = document.querySelector('.logo'); 
+    
+     const buttons = document.querySelector('.buttons'); 
+     logo.addEventListener('click' , () => displayItems(items)); 
+     buttons.addEventListener('click' , event => onButtonclick(event, items)); 
+
+ }
+
+
+
 // ******* MAIN ******
 // Function that fetch data from data.json file, 
 loadItems()
-
 // AFTER loading data 
 .then(items => {
     // console.log(items); 
-    // will display all items in list from items array 
-    
+    // will display all items in list from items array  
     displayItems(items); 
     // // render items to HTML 
-    // setEventListeners(items)
+    setEventListeners(items);
     // // when clicked, filter items 
 
 })
-
 // if failed, display error message 
 .catch(console.log)
